@@ -1,0 +1,106 @@
+/* Reset global background primeiro */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Ubuntu Mono', monospace;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.terminal-container {
+    margin: 30px 0;
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #0d0d0d !important;
+}
+
+.terminal-text {
+    margin: 15px 0;
+    line-height: 1.6;
+    background-color: transparent; /* Garante que não haja fundo nas linhas de texto */
+}
+
+.prompt {
+    color: #4af626;
+    background-color: transparent; /* Garante que o prompt tenha fundo transparente */
+}
+
+.typing-text {
+    position: relative;
+    background-color: transparent; /* Garante que o texto digitado tenha fundo transparente */
+}
+
+.typing-text::after {
+    content: '█';
+    position: absolute;
+    animation: blink 1s step-end infinite;
+    background-color: transparent; /* Cursor com fundo transparente */
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.tryhackme {
+    padding-left: 130%;
+    padding-top: 1%;
+    size: 30px;
+    background-color: transparent; /* Fundo transparente para o container do badge */
+}
+
+.tryhackme img {
+    background-color: transparent; /* Fundo transparente para a imagem */
+}
+
+footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #333;
+    text-align: center;
+    background-color: transparent; /* Fundo transparente para o footer */
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    background-color: transparent; /* Fundo transparente para links sociais */
+}
+
+.social-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+    background-color: transparent; /* Fundo transparente para links */
+}
+
+.social-icon {
+    margin-left: 5px;
+    background-color: transparent; /* Fundo transparente para ícones */
+}
+
+.linkedin-link:hover {
+    color: #0A66C2;
+}
+
+.github-link:hover {
+    color: #6e5494;
+}
+
+.tryhackme-link:hover {
+    color: #3498db;
+}
