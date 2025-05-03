@@ -1,25 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>whoami</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Portfolio de Pedro, Engenheiro de Computação com foco em Cibersegurança">
+    <title>pdro@terminal ~ whoami</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="tryhackme">
-        <img src="https://tryhackme-badges.s3.amazonaws.com/pdro.png" alt="Your Image Badge" />
+    <div class="badge-container">
+        <img src="https://tryhackme-badges.s3.amazonaws.com/pdro.png" alt="TryHackMe Badge" />
     </div>
-    <div class="terminal-container">
-        <div class="terminal-text">
-            <span class="prompt">pdro@DESKTOP:~#</span> <span class="typing-text" id="text1">Me chamo pedro, estou me formando em engenharia de computação e com o foco em cibersegurança.</span>
+
+    <div class="terminal-window">
+        <div class="terminal-header">
+            <div class="terminal-controls">
+                <span class="control-close"></span>
+                <span class="control-minimize"></span>
+                <span class="control-maximize"></span>
+            </div>
+            <div class="terminal-title">pdro@DESKTOP: ~/portfolio</div>
         </div>
-        <div class="terminal-text" id="terminal-text2" style="visibility: hidden;">
-            <span class="prompt">pdro@DESKTOP:~#</span> <span class="typing-text" id="text2">Atualmente, estou envolvido em um projeto acadêmico de visão computacional que utiliza o ESP32 em conjunto com módulos avançados, como o YOLOv5 para detecção de objetos e o MiDaS para estimativa de profundidade. O foco do projeto é desenvolver soluções otimizadas para ambientes com restrições de hardware e capacidade de processamento.</span>
+        <div class="terminal-content" id="terminal-content">
+            <div class="terminal-line" id="welcome-message">
+                <span class="prompt">pdro@DESKTOP:~$</span> whoami
+            </div>
+            
+            <div class="terminal-line" id="bio-pt" lang="pt-br">
+                Me chamo Pedro, estou me formando em engenharia de computação com o foco em cibersegurança.
+                Atualmente, estou envolvido em um projeto acadêmico de visão computacional que utiliza o ESP32 em conjunto com módulos avançados, como o YOLOv5 para detecção de objetos e o MiDaS para estimativa de profundidade.
+            </div>
+            
+            <div class="terminal-line hidden" id="bio-en" lang="en">
+                My name is Pedro, I'm completing my computer engineering degree with a focus on cybersecurity.
+                Currently, I'm involved in an academic computer vision project using ESP32 with advanced modules like YOLOv5 for object detection and MiDaS for depth estimation.
+            </div>
+            
+            <div class="terminal-line">
+                <span class="prompt">pdro@DESKTOP:~$</span> help
+            </div>
+            
+            <div class="terminal-line">
+                Available commands:
+                <div class="command-list">
+                    <span class="command-item" data-command="whoami">whoami</span>
+                    <span class="command-item" data-command="skills">skills</span>
+                    <span class="command-item" data-command="projects">projects</span>
+                    <span class="command-item" data-command="education">education</span>
+                    <span class="command-item" data-command="contact">contact</span>
+                    <span class="command-item" data-command="toggle-language">language</span>
+                    <span class="command-item" data-command="clear">clear</span>
+                </div>
+            </div>
+            
+            <div class="terminal-input">
+                <span class="prompt">pdro@DESKTOP:~$</span>
+                <input type="text" id="cmd-input" placeholder="Digite um comando ou clique nas opções acima..." autocomplete="off">
+                <span class="cursor"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates para conteúdo dos comandos (ocultos inicialmente) -->
+    <div id="templates" class="hidden">
+        <!-- Seção de habilidades -->
+        <div id="tpl-skills-pt">
+            <div class="terminal-line">
+                <strong>Cybersecurity:</strong> Pentest, Análise de Vulnerabilidades, CTFs
+            </div>
+            <div class="terminal-line">
+                <strong>Programação:</strong> Python, JavaScript, Go, PHP
+            </div>
+        </div>
+        
+        <div id="tpl-skills-en">
+            <div class="terminal-line">
+                <strong>Cybersecurity:</strong> Pentest, Vulnerability Analysis, CTFs
+            </div>
+            <div class="terminal-line">
+                <strong>Programming:</strong> Python, JavaScript, Go, PHP
+            </div>
+        </div>
+        
+        <!-- Seção de projetos -->
+        <div id="tpl-projects-pt">
+            <div class="terminal-line">
+                <strong>Visão Computacional com ESP32</strong>
+                <div>Projeto integrado de visão computacional utilizando ESP32, YOLOv5 e MiDaS para detectar objetos e estimar profundidade em ambientes com hardware limitado.</div>
+            </div>
+            <div class="terminal-line">
+                <strong>CTF Writeups</strong>
+                <div>Documentação e solução de desafios de segurança (Capture The Flag) em plataformas como TryHackMe e HackTheBox.</div>
+            </div>
+        </div>
+        
+        <div id="tpl-projects-en">
+            <div class="terminal-line">
+                <strong>Computer Vision with ESP32</strong>
+                <div>Integrated computer vision project using ESP32, YOLOv5, and MiDaS to detect objects and estimate depth in environments with limited hardware resources.</div>
+            </div>
+            <div class="terminal-line">
+                <strong>CTF Writeups</strong>
+                <div>Documentation and solutions for security challenges (Capture The Flag) on platforms like TryHackMe and HackTheBox.</div>
+            </div>
+        </div>
+        
+        <!-- Seção de educação -->
+        <div id="tpl-education-pt">
+            <div class="terminal-line">
+                <strong>Engenharia de Computação - UniFECAF</strong>
+                <div>Graduação em andamento com foco em cibersegurança e sistemas embarcados.</div>
+            </div>
+            <!--
+                <div class="terminal-line">
+                    <strong>Certificações</strong>
+                    <div>certificações</div>
+                </div>
+            -->
+        </div>
+        
+        <div id="tpl-education-en">
+            <div class="terminal-line">
+                <strong>Computer Engineering - UniFECAF</strong>
+                <div>Undergraduate degree in progress with focus on cybersecurity and embedded systems.</div>
+            </div>
+            <!--
+                <div class="terminal-line">
+                    <strong>Certifications</strong>
+                    <div>certifications</div>
+                </div>
+            -->
+        </div>
+        
+        <!-- Seção de contato -->
+        <div id="tpl-contact-pt">
+            <div class="terminal-line">
+                <strong>Email:</strong> ribeiro.opedrohenrique@gmail.com
+            </div>
+            <div class="terminal-line">
+                <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/pedrohrr/" target="_blank">linkedin.com/in/pedrohrr</a>
+            </div>
+            <div class="terminal-line">
+                <strong>GitHub:</strong> <a href="https://github.com/pdro-h" target="_blank">github.com/pdro-h</a>
+            </div>
+            <div class="terminal-line">
+                <strong>TryHackMe:</strong> <a href="https://tryhackme.com/p/pdro" target="_blank">tryhackme.com/p/pdro</a>
+            </div>
+        </div>
+        
+        <div id="tpl-contact-en">
+            <div class="terminal-line">
+                <strong>Email:</strong> ribeiro.opedrohenrique@gmail.com
+            </div>
+            <div class="terminal-line">
+                <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/pedrohrr/" target="_blank">linkedin.com/in/pedrohrr</a>
+            </div>
+            <div class="terminal-line">
+                <strong>GitHub:</strong> <a href="https://github.com/pdro-h" target="_blank">github.com/pdro-h</a>
+            </div>
+            <div class="terminal-line">
+                <strong>TryHackMe:</strong> <a href="https://tryhackme.com/p/pdro" target="_blank">tryhackme.com/p/pdro</a>
+            </div>
         </div>
     </div>
     
@@ -34,9 +179,12 @@
             <a href="https://tryhackme.com/p/pdro" target="_blank" class="social-link tryhackme-link">
                 <i class="fa-solid fa-user-secret social-icon"></i>
             </a>
-            
+        </div>
+        <div class="language-toggle" id="language-toggle">
+            <span id="lang-pt" class="active">PT</span> | <span id="lang-en">EN</span>
         </div>
     </footer>
+
+    <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
 </html>

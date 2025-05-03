@@ -1,4 +1,13 @@
-/* Reset global background primeiro */
+:root {
+    --terminal-bg: #0d0d0d;
+    --terminal-text: #f0f0f0;
+    --terminal-prompt: #4af626;
+    --terminal-border: #333;
+    --link-hover-linkedin: #0A66C2;
+    --link-hover-github: #6e5494;
+    --link-hover-tryhackme: #3498db;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,100 +16,169 @@
 
 body {
     background-color: black;
-    color: white;
+    color: var(--terminal-text);
     font-family: 'Ubuntu Mono', monospace;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
-}
-
-.terminal-container {
-    margin: 30px 0;
-    border: 1px solid #333;
-    border-radius: 5px;
-    padding: 15px;
-    background-color: #0d0d0d !important;
-}
-
-.terminal-text {
-    margin: 15px 0;
     line-height: 1.6;
-    background-color: transparent; /* Garante que não haja fundo nas linhas de texto */
+}
+
+.terminal-window {
+    border: 1px solid var(--terminal-border);
+    border-radius: 8px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.terminal-header {
+    background-color: #333;
+    padding: 8px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.terminal-title {
+    font-size: 14px;
+}
+
+.terminal-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.terminal-controls span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.control-close { background-color: #ff5f56; }
+.control-minimize { background-color: #ffbd2e; }
+.control-maximize { background-color: #27c93f; }
+
+.terminal-content {
+    background-color: var(--terminal-bg);
+    padding: 15px;
+    min-height: 300px;
+    overflow-y: auto;
+}
+
+.terminal-line {
+    margin-bottom: 15px;
+    display: block;
 }
 
 .prompt {
-    color: #4af626;
-    background-color: transparent; /* Garante que o prompt tenha fundo transparente */
+    color: var(--terminal-prompt);
 }
 
-.typing-text {
-    position: relative;
-    background-color: transparent; /* Garante que o texto digitado tenha fundo transparente */
-}
-
-.typing-text::after {
-    content: '█';
-    position: absolute;
+.cursor {
     animation: blink 1s step-end infinite;
-    background-color: transparent; /* Cursor com fundo transparente */
 }
 
 @keyframes blink {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
-.tryhackme {
-    padding-left: 130%;
-    padding-top: 1%;
-    size: 30px;
-    background-color: transparent; /* Fundo transparente para o container do badge */
+.terminal-input {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
 }
 
-.tryhackme img {
-    background-color: transparent; /* Fundo transparente para a imagem */
+.terminal-input input {
+    background-color: transparent;
+    border: none;
+    color: var(--terminal-text);
+    font-family: 'Ubuntu Mono', monospace;
+    font-size: 16px;
+    width: 100%;
+    padding-left: 10px;
+    outline: none;
+}
+
+.badge-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0;
+}
+
+.badge-container img {
+    max-width: 220px;
+    height: auto;
 }
 
 footer {
     margin-top: 40px;
     padding-top: 20px;
-    border-top: 1px solid #333;
+    border-top: 1px solid var(--terminal-border);
     text-align: center;
-    background-color: transparent; /* Fundo transparente para o footer */
 }
 
 .social-links {
     display: flex;
     justify-content: center;
     gap: 30px;
-    background-color: transparent; /* Fundo transparente para links sociais */
+    margin-bottom: 20px;
 }
 
 .social-link {
     color: white;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 22px;
     transition: color 0.3s;
-    background-color: transparent; /* Fundo transparente para links */
 }
 
-.social-icon {
-    margin-left: 5px;
-    background-color: transparent; /* Fundo transparente para ícones */
+.linkedin-link:hover { color: var(--link-hover-linkedin); }
+.github-link:hover { color: var(--link-hover-github); }
+.tryhackme-link:hover { color: var(--link-hover-tryhackme); }
+
+.language-toggle {
+    margin-top: 15px;
+    cursor: pointer;
+    color: #888;
 }
 
-.linkedin-link:hover {
-    color: #0A66C2;
+.language-toggle:hover {
+    color: white;
 }
 
-.github-link:hover {
-    color: #6e5494;
+.hidden {
+    display: none;
 }
 
-.tryhackme-link:hover {
-    color: #3498db;
+.command-list {
+    margin: 15px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.command-item {
+    color: #888;
+    cursor: pointer;
+}
+
+.command-item:hover {
+    color: var(--terminal-prompt);
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    
+    .terminal-content {
+        min-height: 200px;
+        padding: 10px;
+    }
+    
+    .command-list {
+        grid-template-columns: 1fr 1fr;
+    }
 }
