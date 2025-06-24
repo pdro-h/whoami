@@ -49,7 +49,7 @@
                 <div class="command-list">
                     <span class="command-item" data-command="whoami">whoami</span>
                     <span class="command-item" data-command="skills">skills</span>
-                    <span class="command-item" data-command="projects">projects</span>
+                    <span class="command-item" data-command="experience">experience</span>
                     <span class="command-item" data-command="education">education</span>
                     <span class="command-item" data-command="contact">contact</span>
                     <span class="command-item" data-command="toggle-language">language</span>
@@ -68,26 +68,26 @@
     <!-- Templates para conteúdo dos comandos (ocultos inicialmente) -->
     <div id="templates" class="hidden">
         <!-- Seção de habilidades -->
-        <div id="tpl-skills-pt">
+        <template id="tpl-skills-pt">
             <div class="terminal-line">
                 <strong>Cybersecurity:</strong> Pentest, Análise de Vulnerabilidades, CTFs
             </div>
             <div class="terminal-line">
                 <strong>Programação:</strong> Python, JavaScript, Go, PHP
             </div>
-        </div>
+        </template>
         
-        <div id="tpl-skills-en">
+        <template id="tpl-skills-en">
             <div class="terminal-line">
                 <strong>Cybersecurity:</strong> Pentest, Vulnerability Analysis, CTFs
             </div>
             <div class="terminal-line">
                 <strong>Programming:</strong> Python, JavaScript, Go, PHP
             </div>
-        </div>
+        </template>
         
         <!-- Seção de projetos -->
-        <div id="tpl-projects-pt">
+        <template id="tpl-experience-pt">
             <div class="terminal-line">
                 <strong>Visão Computacional com ESP32</strong>
                 <div>Projeto integrado de visão computacional utilizando ESP32, YOLOv5 e MiDaS para detectar objetos e estimar profundidade em ambientes com hardware limitado.</div>
@@ -96,9 +96,9 @@
                 <strong>CTF Writeups</strong>
                 <div>Documentação e solução de desafios de segurança (Capture The Flag) em plataformas como TryHackMe e HackTheBox.</div>
             </div>
-        </div>
+        </template>
         
-        <div id="tpl-projects-en">
+        <template id="tpl-experience-en">
             <div class="terminal-line">
                 <strong>Computer Vision with ESP32</strong>
                 <div>Integrated computer vision project using ESP32, YOLOv5, and MiDaS to detect objects and estimate depth in environments with limited hardware resources.</div>
@@ -107,10 +107,10 @@
                 <strong>CTF Writeups</strong>
                 <div>Documentation and solutions for security challenges (Capture The Flag) on platforms like TryHackMe and HackTheBox.</div>
             </div>
-        </div>
+        </template>
         
         <!-- Seção de educação -->
-        <div id="tpl-education-pt">
+        <template id="tpl-education-pt">
             <div class="terminal-line">
                 <strong>Engenharia de Computação - UniFECAF</strong>
                 <div>Graduação em andamento com foco em cibersegurança e sistemas embarcados.</div>
@@ -121,9 +121,9 @@
                     <div>certificações</div>
                 </div>
             -->
-        </div>
-        
-        <div id="tpl-education-en">
+        </template>
+
+        <template id="tpl-education-en">
             <div class="terminal-line">
                 <strong>Computer Engineering - UniFECAF</strong>
                 <div>Undergraduate degree in progress with focus on cybersecurity and embedded systems.</div>
@@ -134,10 +134,10 @@
                     <div>certifications</div>
                 </div>
             -->
-        </div>
+        </template>
         
         <!-- Seção de contato -->
-        <div id="tpl-contact-pt">
+        <template id="tpl-contact-pt">
             <div class="terminal-line">
                 <strong>Email:</strong> ribeiro.opedrohenrique@gmail.com
             </div>
@@ -150,9 +150,9 @@
             <div class="terminal-line">
                 <strong>TryHackMe:</strong> <a href="https://tryhackme.com/p/pdro" target="_blank">tryhackme.com/p/pdro</a>
             </div>
-        </div>
-        
-        <div id="tpl-contact-en">
+        </template>
+
+        <template id="tpl-contact-en">
             <div class="terminal-line">
                 <strong>Email:</strong> ribeiro.opedrohenrique@gmail.com
             </div>
@@ -165,7 +165,7 @@
             <div class="terminal-line">
                 <strong>TryHackMe:</strong> <a href="https://tryhackme.com/p/pdro" target="_blank">tryhackme.com/p/pdro</a>
             </div>
-        </div>
+        </template>
     </div>
     
     <footer>

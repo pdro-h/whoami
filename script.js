@@ -1,159 +1,157 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const terminalContent = document.getElementById('terminal-content');
-    const cmdInput = document.getElementById('cmd-input');
-    const languageToggle = document.getElementById('language-toggle');
-    const langPt = document.getElementById('lang-pt');
-    const langEn = document.getElementById('lang-en');
-    const bioPt = document.getElementById('bio-pt');
-    const bioEn = document.getElementById('bio-en');
-    
-    // Inicializa a língua atual
-    let currentLang = 'pt';
-    
-    // Implementação do efeito de digitação para a primeira mensagem
-    function typeText(element, text, index = 0, speed = 50) {
-        if (index < text.length) {
-            element.innerHTML += text.charAt(index);
-            setTimeout(() => typeText(element, text, index + 1, speed), speed);
-        } else {
-            element.innerHTML += ' <span class="cursor">█</span>';
-        }
+document.addEventListener("DOMContentLoaded", () => {
+  /* ---------- DOM refs ---------- */
+  const terminal = document.getElementById("terminal-content");
+  const inputLine = terminal.querySelector(".terminal-input");
+  const cmdInput = document.getElementById("cmd-input");
+  const langToggle = document.getElementById("language-toggle");
+  const langPT = document.getElementById("lang-pt");
+  const langEN = document.getElementById("lang-en");
+  const bioPT = document.getElementById("bio-pt");
+  const bioEN = document.getElementById("bio-en");
+
+  /* ---------- i18n ---------- */
+  let currentLang = "pt";
+  const MSG = {
+    pt: {
+      unknown: (c) => `Comando não reconhecido: ${c}. Digite 'help' para listar comandos.`,
+      toPT: "Idioma alterado para Português.",
+      toEN: "Idioma alterado para Inglês.",
+      help:
+        "Comandos disponíveis: whoami, skills, projects, education, contact, language, clear, help",
+    },
+    en: {
+      unknown: (c) => `Unknown command: ${c}. Type 'help' to list commands.`,
+      toPT: "Language changed to Portuguese.",
+      toEN: "Language changed to English.",
+      help:
+        "Available commands: whoami, skills, projects, education, contact, language, clear, help",
+    },
+  };
+
+  /* ---------- utilities ---------- */
+  const promptHTML = '<span class="prompt">pdro@DESKTOP:~$</span>';
+
+  function scrollBottom() {
+    terminal.scrollTop = terminal.scrollHeight;
+  }
+
+  function printLine(html) {
+    const line = document.createElement("div");
+    line.className = "terminal-line";
+    line.innerHTML = html;
+    terminal.insertBefore(line, inputLine);
+  }
+
+  function printPrompt(cmd = "") {
+    printLine(`${promptHTML} ${cmd}`);
+  }
+
+  function clearTerminal() {
+    /* Keep only the persistent input line */
+    [...terminal.querySelectorAll(":scope > .terminal-line")].forEach((n) => n.remove());
+  }
+
+  function showTemplate(section) {
+    const tplId = `tpl-${section}-${currentLang}`;
+    const tpl = document.getElementById(tplId);
+    if (!tpl) return;
+
+    let fragment;
+    // Works with both <template> and regular <div> blocks
+    if (tpl.content) {
+      fragment = tpl.content.cloneNode(true);
+    } else {
+      fragment = document.createDocumentFragment();
+      tpl.childNodes.forEach((node) => fragment.appendChild(node.cloneNode(true)));
     }
-    
-    // Manipulação de comandos
-    function processCommand(cmd) {
-        cmd = cmd.trim().toLowerCase();
-        
-        // Limpa a entrada
-        cmdInput.value = '';
-        
-        // Remove o cursor atual se houver
-        const cursors = document.querySelectorAll('.cursor');
-        cursors.forEach(c => c.remove());
-        
-        // Adiciona o comando à tela
-        const cmdLine = document.createElement('div');
-        cmdLine.className = 'terminal-line';
-        cmdLine.innerHTML = `<span class="prompt">pdro@DESKTOP:~$</span> ${cmd}`;
-        terminalContent.appendChild(cmdLine);
-        
-        // Processa o comando
-        switch(cmd) {
-            case 'whoami':
-                if (currentLang === 'pt') {
-                    bioPt.classList.remove('hidden');
-                    bioEn.classList.add('hidden');
-                } else {
-                    bioPt.classList.add('hidden');
-                    bioEn.classList.remove('hidden');
-                }
-                break;
-                
-            case 'clear':
-                // Mantém apenas a linha de input
-                while (terminalContent.firstChild) {
-                  if (terminalContent.lastChild === terminalContent.querySelector('.terminal-input')) {
-                    break;
-                  }
-                  terminalContent.removeChild(terminalContent.firstChild);
-                }
-                return;
-                
-            case 'toggle-language':
-            case 'language':
-                toggleLanguage();
-                break;
-                
-            case 'skills':
-            case 'projects':
-            case 'education':
-            case 'contact':
-                const templateId = `tpl-${cmd}-${currentLang}`;
-                const template = document.getElementById(templateId);
-                if (template) {
-                    const content = template.cloneNode(true);
-                    content.removeAttribute('id');
-                    content.childNodes.forEach(node => {
-                        if (node.nodeType === 1) { // Node.ELEMENT_NODE
-                            terminalContent.appendChild(node.cloneNode(true));
-                        }
-                    });
-                }
-                break;
-                
-            default:
-                const unknownCmd = document.createElement('div');
-                unknownCmd.className = 'terminal-line';
-                unknownCmd.textContent = `Comando não reconhecido: ${cmd}. Digite 'help' para ver comandos disponíveis.`;
-                terminalContent.appendChild(unknownCmd);
-        }
-        
-        // Rola para o final do terminal
-        terminalContent.scrollTop = terminalContent.scrollHeight;
+    terminal.insertBefore(fragment, inputLine);
+  }
+
+  function toggleLanguage() {
+    currentLang = currentLang === "pt" ? "en" : "pt";
+    langPT.classList.toggle("active", currentLang === "pt");
+    langEN.classList.toggle("active", currentLang === "en");
+    bioPT.classList.toggle("hidden", currentLang !== "pt");
+    bioEN.classList.toggle("hidden", currentLang === "pt");
+    printLine(currentLang === "pt" ? MSG.pt.toPT : MSG.en.toEN);
+  }
+
+  /* ---------- command handlers ---------- */
+  const COMMANDS = {
+    whoami() {
+      // ensure bio visibility matches language
+      bioPT.classList.toggle("hidden", currentLang !== "pt");
+      bioEN.classList.toggle("hidden", currentLang === "pt");
+    },
+    skills() {
+      showTemplate("skills");
+    },
+    experience() {
+      showTemplate("experience");
+    },
+    education() {
+      showTemplate("education");
+    },
+    contact() {
+      showTemplate("contact");
+    },
+    language() {
+      toggleLanguage();
+    },
+    "toggle-language"() {
+      toggleLanguage();
+    },
+    clear() {
+      clearTerminal();
+    },
+    help() {
+      printLine(currentLang === "pt" ? MSG.pt.help : MSG.en.help);
+    },
+  };
+
+  function runCommand(raw) {
+    const cmd = raw.trim().toLowerCase();
+    if (!cmd) return;
+
+    printPrompt(cmd);
+    cmdInput.value = "";
+
+    const fn = COMMANDS[cmd];
+    if (fn) {
+      fn();
+    } else {
+      printLine((MSG[currentLang] || MSG.pt).unknown(cmd));
     }
-    
-    // Alternador de idioma
-    function toggleLanguage() {
-        currentLang = currentLang === 'pt' ? 'en' : 'pt';
-        
-        if (currentLang === 'pt') {
-            langPt.classList.add('active');
-            langEn.classList.remove('active');
-            bioPt.classList.remove('hidden');
-            bioEn.classList.add('hidden');
-        } else {
-            langPt.classList.remove('active');
-            langEn.classList.add('active');
-            bioPt.classList.add('hidden');
-            bioEn.classList.remove('hidden');
-        }
-        
-        // Adiciona linha informativa sobre a mudança de idioma
-        const langLine = document.createElement('div');
-        langLine.className = 'terminal-line';
-        langLine.textContent = currentLang === 'pt' ? 
-            'Idioma alterado para Português' : 
-            'Language changed to English';
-        terminalContent.appendChild(langLine);
-        
-        // Rola para o final do terminal
-        terminalContent.scrollTop = terminalContent.scrollHeight;
-    }
-    
-    // Event listeners
-    cmdInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            const cmd = cmdInput.value;
-            processCommand(cmd);
-        }
-    });
-    
-    // Listener para os comandos clicáveis
-    document.querySelectorAll('.command-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const cmd = this.getAttribute('data-command');
-            processCommand(cmd);
-        });
-    });
-    
-    // Listener para o alternador de idioma
-    languageToggle.addEventListener('click', function(e) {
-        if (e.target.id === 'lang-pt' && currentLang !== 'pt') {
-            processCommand('toggle-language');
-        } else if (e.target.id === 'lang-en' && currentLang !== 'en') {
-            processCommand('toggle-language');
-        }
-    });
-    
-    // Foca na entrada quando clicar em qualquer lugar do terminal
-    terminalContent.addEventListener('click', function() {
-        cmdInput.focus();
-    });
-    
-    // Inicializa o efeito de digitação na primeira mensagem
-    const welcomeMessage = document.getElementById('welcome-message');
-    typeText(welcomeMessage, 'whoami');
-    
-    // Foca na entrada ao carregar a página
-    cmdInput.focus();
+
+    scrollBottom();
+  }
+
+  /* ---------- typing effect ---------- */
+  const welcome = document.getElementById("welcome-message");
+  typeText(welcome, "whoami", 0, 40, () => runCommand("whoami"));
+
+  function typeText(el, text, idx, speed, cb) {
+    if (idx < text.length) {
+      el.innerHTML += text.charAt(idx);
+      setTimeout(() => typeText(el, text, idx + 1, speed, cb), speed);
+    } else if (typeof cb === "function") cb();
+  }
+
+  /* ---------- event listeners ---------- */
+  cmdInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") runCommand(cmdInput.value);
+  });
+
+  document.querySelectorAll(".command-item").forEach((btn) =>
+    btn.addEventListener("click", () => runCommand(btn.dataset.command))
+  );
+
+  langToggle.addEventListener("click", (e) => {
+    if (e.target.id === "lang-pt" && currentLang !== "pt") runCommand("language");
+    if (e.target.id === "lang-en" && currentLang !== "en") runCommand("language");
+  });
+
+  terminal.addEventListener("click", () => cmdInput.focus());
+
+  cmdInput.focus();
 });
