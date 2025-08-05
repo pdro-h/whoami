@@ -1,145 +1,191 @@
+// ====== Elements ======
+const terminal = document.getElementById("terminal");
+const cmdInput = document.getElementById("cmd-input");
+const runBtn = document.getElementById("run-btn");
+const clearBtn = document.getElementById("clear-btn");
+const langToggle = document.getElementById("lang-toggle");
+
+const bioPT = document.getElementById("bio-pt");
+const bioEN = document.getElementById("bio-en");
+const footPT = document.getElementById("foot-pt");
+const footEN = document.getElementById("foot-en");
+
+let currentLang = "pt";
+
+// ====== Helpers ======
+function printLine(text = "") {
+  const div = document.createElement("div");
+  div.className = "line";
+  div.textContent = text;
+  terminal.appendChild(div);
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+function prompt(cmd = "") {
+  const div = document.createElement("div");
+  div.className = "line";
+  div.innerHTML = `$ <span class="cmd">${cmd}</span>`;
+  terminal.appendChild(div);
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+function clearTerminal() {
+  terminal.innerHTML = "";
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  const isPT = lang === "pt";
+
+  bioPT.classList.toggle("hidden", !isPT);
+  bioEN.classList.toggle("hidden", isPT);
+
+  footPT.classList.toggle("hidden", !isPT);
+  footEN.classList.toggle("hidden", isPT);
+
+  document.getElementById("lang-pt").classList.toggle("active", isPT);
+  document.getElementById("lang-en").classList.toggle("active", !isPT);
+
+  const placeholderPT = "Digite um comando e pressione Enter...";
+  const placeholderEN = "Type a command and press Enter...";
+  cmdInput.placeholder = isPT ? placeholderPT : placeholderEN;
+
+  const titlePT = "pdro@terminal ~ whoami";
+  const titleEN = "pdro@terminal ~ whoami";
+  document.title = isPT ? titlePT : titleEN;
+
+  // Print a hint after switching
+  const hintPT = "Dica: use 'help' para ver os comandos.";
+  const hintEN = "Tip: use 'help' to list commands.";
+  printLine(isPT ? hintPT : hintEN);
+}
+
+// ====== Commands ======
+function whoami() {
+  // Print the bio text for the current language
+  const el = currentLang === "pt" ? bioPT : bioEN;
+  const text = (el?.textContent || "").trim();
+  if (text) {
+    text.split("\n").map(s => s.trim()).filter(Boolean).forEach(line => printLine(line));
+  } else {
+    printLine(currentLang === "pt" ? "Sem informações de perfil no momento." : "No profile information available.");
+  }
+}
+
+function skills() {
+  const skillsPT = [
+    "Linguagens: Python, Bash, Dart/Flutter",
+    "Ferramentas: Burp Suite, Wireshark/TShark, Nmap, Docker, Git",
+    "Sistemas: Linux/Kali, Windows",
+  ];
+  const skillsEN = [
+    "Languages: Python, Bash, Dart/Flutter",
+    "Tools: Burp Suite, Wireshark/TShark, Nmap, Docker, Git",
+    "Systems: Linux/Kali, Windows",
+  ];
+  (currentLang === "pt" ? skillsPT : skillsEN).forEach(printLine);
+}
+
+function experience() {
+  const expPT = [
+    "2025 — Desenvolvimento de monitor de tráfego em Python com GUI e alertas.",
+    "2025 — Pentests em plataformas como HackerOne/Intigriti (XSS, enumeração, NoSQLi).",
+  ];
+  const expEN = [
+    "2025 — Built a Python traffic monitor with GUI and alerting.",
+    "2025 — Pentests on HackerOne/Intigriti (XSS, enumeration, NoSQLi).",
+  ];
+  (currentLang === "pt" ? expPT : expEN).forEach(printLine);
+}
+
+function education() {
+  const eduPT = [
+    "Bacharelado em Engenharia de Computação — em andamento",
+  ];
+  const eduEN = [
+    "B.Sc. in Computer Engineering — in progress",
+  ];
+  (currentLang === "pt" ? eduPT : eduEN).forEach(printLine);
+}
+
+function contact() {
+  const cPT = [
+    "Email: pedro@example.com",
+    "GitHub: github.com/pdro",
+    "LinkedIn: linkedin.com/in/pdro",
+  ];
+  const cEN = [
+    "Email: pedro@example.com",
+    "GitHub: github.com/pdro",
+    "LinkedIn: linkedin.com/in/pdro",
+  ];
+  (currentLang === "pt" ? cPT : cEN).forEach(printLine);
+}
+
+function help() {
+  const hPT = [
+    "Comandos disponíveis:",
+    "whoami, skills, experience, education, contact, language, clear, help",
+  ];
+  const hEN = [
+    "Available commands:",
+    "whoami, skills, experience, education, contact, language, clear, help",
+  ];
+  (currentLang === "pt" ? hPT : hEN).forEach(printLine);
+}
+
+function clearCmd() {
+  clearTerminal();
+}
+
+function language() {
+  setLanguage(currentLang === "pt" ? "en" : "pt");
+}
+
+// ====== Router ======
+function runCommand(input) {
+  const cmd = (input || "").trim().toLowerCase();
+  if (!cmd) return;
+
+  prompt(cmd);
+
+  switch (cmd) {
+    case "whoami":
+      whoami(); break;
+    case "skills":
+      skills(); break;
+    case "experience":
+      experience(); break;
+    case "education":
+      education(); break;
+    case "contact":
+      contact(); break;
+    case "language":
+      language(); break;
+    case "clear":
+      clearCmd(); break;
+    case "help":
+      help(); break;
+    default:
+      printLine(currentLang === "pt" ? `Comando não encontrado: ${cmd}` : `Command not found: ${cmd}`);
+  }
+}
+
+// ====== Events ======
 document.addEventListener("DOMContentLoaded", () => {
-  /* ---------- DOM refs ---------- */
-  const terminal = document.getElementById("terminal-content");
-  const inputLine = terminal.querySelector(".terminal-input");
-  const cmdInput = document.getElementById("cmd-input");
-  const langToggle = document.getElementById("language-toggle");
-  const langPT = document.getElementById("lang-pt");
-  const langEN = document.getElementById("lang-en");
-  const bioPT = document.getElementById("bio-pt");
-  const bioEN = document.getElementById("bio-en");
+  // Initial prompt and welcome
+  prompt("help");
+  help();
 
-  /* ---------- i18n ---------- */
-  let currentLang = "pt";
-  const MSG = {
-    pt: {
-      unknown: (c) => `Comando não reconhecido: ${c}. Digite 'help' para listar comandos.`,
-      toPT: "Idioma alterado para Português.",
-      toEN: "Idioma alterado para Inglês.",
-      help:
-        "Comandos disponíveis: whoami, skills, projects, education, contact, language, clear, help",
-    },
-    en: {
-      unknown: (c) => `Unknown command: ${c}. Type 'help' to list commands.`,
-      toPT: "Language changed to Portuguese.",
-      toEN: "Language changed to English.",
-      help:
-        "Available commands: whoami, skills, projects, education, contact, language, clear, help",
-    },
-  };
+  // Bindings
+  runBtn.addEventListener("click", () => runCommand(cmdInput.value));
+  clearBtn.addEventListener("click", clearCmd);
 
-  /* ---------- utilities ---------- */
-  const promptHTML = '<span class="prompt">pdro@DESKTOP:~$</span>';
-
-  function scrollBottom() {
-    terminal.scrollTop = terminal.scrollHeight;
-  }
-
-  function printLine(html) {
-    const line = document.createElement("div");
-    line.className = "terminal-line";
-    line.innerHTML = html;
-    terminal.insertBefore(line, inputLine);
-  }
-
-  function printPrompt(cmd = "") {
-    printLine(`${promptHTML} ${cmd}`);
-  }
-
-  function clearTerminal() {
-    /* Keep only the persistent input line */
-    [...terminal.querySelectorAll(":scope > .terminal-line")].forEach((n) => n.remove());
-  }
-
-  function showTemplate(section) {
-    const tplId = `tpl-${section}-${currentLang}`;
-    const tpl = document.getElementById(tplId);
-    if (!tpl) return;
-
-    let fragment;
-    // Works with both <template> and regular <div> blocks
-    if (tpl.content) {
-      fragment = tpl.content.cloneNode(true);
-    } else {
-      fragment = document.createDocumentFragment();
-      tpl.childNodes.forEach((node) => fragment.appendChild(node.cloneNode(true)));
-    }
-    terminal.insertBefore(fragment, inputLine);
-  }
-
-  function toggleLanguage() {
-    currentLang = currentLang === "pt" ? "en" : "pt";
-    langPT.classList.toggle("active", currentLang === "pt");
-    langEN.classList.toggle("active", currentLang === "en");
-    bioPT.classList.toggle("hidden", currentLang !== "pt");
-    bioEN.classList.toggle("hidden", currentLang === "pt");
-    printLine(currentLang === "pt" ? MSG.pt.toPT : MSG.en.toEN);
-  }
-
-  /* ---------- command handlers ---------- */
-  const COMMANDS = {
-    whoami() {
-      // ensure bio visibility matches language
-      bioPT.classList.toggle("hidden", currentLang !== "pt");
-      bioEN.classList.toggle("hidden", currentLang === "pt");
-    },
-    skills() {
-      showTemplate("skills");
-    },
-    experience() {
-      showTemplate("experience");
-    },
-    education() {
-      showTemplate("education");
-    },
-    contact() {
-      showTemplate("contact");
-    },
-    language() {
-      toggleLanguage();
-    },
-    "toggle-language"() {
-      toggleLanguage();
-    },
-    clear() {
-      clearTerminal();
-    },
-    help() {
-      printLine(currentLang === "pt" ? MSG.pt.help : MSG.en.help);
-    },
-  };
-
-  function runCommand(raw) {
-    const cmd = raw.trim().toLowerCase();
-    if (!cmd) return;
-
-    printPrompt(cmd);
-    cmdInput.value = "";
-
-    const fn = COMMANDS[cmd];
-    if (fn) {
-      fn();
-    } else {
-      printLine((MSG[currentLang] || MSG.pt).unknown(cmd));
-    }
-
-    scrollBottom();
-  }
-
-  /* ---------- typing effect ---------- */
-  const welcome = document.getElementById("welcome-message");
-  typeText(welcome, "whoami", 0, 40, () => runCommand("whoami"));
-
-  function typeText(el, text, idx, speed, cb) {
-    if (idx < text.length) {
-      el.innerHTML += text.charAt(idx);
-      setTimeout(() => typeText(el, text, idx + 1, speed, cb), speed);
-    } else if (typeof cb === "function") cb();
-  }
-
-  /* ---------- event listeners ---------- */
   cmdInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") runCommand(cmdInput.value);
+    if (e.key === "Enter") {
+      runCommand(cmdInput.value);
+      cmdInput.value = "";
+    }
   });
 
   document.querySelectorAll(".command-item").forEach((btn) =>
