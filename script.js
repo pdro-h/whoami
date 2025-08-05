@@ -74,26 +74,26 @@ function whoami() {
 
 function skills() {
   const skillsPT = [
-    "Linguagens: Python, Bash, Dart/Flutter",
-    "Ferramentas: Burp Suite, Wireshark/TShark, Nmap, Docker, Git",
-    "Sistemas: Linux/Kali, Windows",
+    "Linguagens: Python, PHP, Go, Bash, Dart/Flutter",
+    "Sistemas: Linux, Windows",
   ];
   const skillsEN = [
-    "Languages: Python, Bash, Dart/Flutter",
-    "Tools: Burp Suite, Wireshark/TShark, Nmap, Docker, Git",
-    "Systems: Linux/Kali, Windows",
+    "Languages: Python, PHP, Go, Bash, Dart/Flutter",
+    "Systems: Linux, Windows",
   ];
   (currentLang === "pt" ? skillsPT : skillsEN).forEach(printLine);
 }
 
 function experience() {
   const expPT = [
-    "2025 — Desenvolvimento de monitor de tráfego em Python com GUI e alertas.",
-    "2025 — Pentests em plataformas como HackerOne/Intigriti (XSS, enumeração, NoSQLi).",
+    "2025 — Projeto Acadêmico (Visão Computacional)— Responsável por realizar uma solução utilizando ESP32 com YOLO e MiDaS, com foco em aplicações para ambientes com restrições de hardware e processamento.",
+    "2025 — III Hackathon UniFECAF — Desenvolvi um chatbot utilizando LLaMA 3.2, com restrições de perguntas limitada exclusivamente a chamadas da API.",
+    "2025 — Realizo pentest em aplicações web em busca de vulnerabilidades, com fornecimento de relatórios técnicos com as vulnerabilidades encontradas."
   ];
   const expEN = [
-    "2025 — Built a Python traffic monitor with GUI and alerting.",
-    "2025 — Pentests on HackerOne/Intigriti (XSS, enumeration, NoSQLi).",
+    "2025 — Academic Project (Computer Vision) — Responsible for developing a solution using ESP32 with YOLO and MiDaS, focused on applications in hardware and processing-constrained environments.",
+    "2025 — III UniFECAF Hackathon — Developed a chatbot using LLaMA 3.2, with question limitations strictly enforced through API calls.",
+    "2025 — Conducting Web Application Pentests — Perform penetration testing on web applications to identify vulnerabilities, providing technical reports detailing the findings."
   ];
   (currentLang === "pt" ? expPT : expEN).forEach(printLine);
 }
@@ -110,12 +110,12 @@ function education() {
 
 function contact() {
   const cPT = [
-    "Email: pedro@example.com",
+    "Email: ribeiro.opedrohenrique@gmail.com",
     "GitHub: github.com/pdro",
     "LinkedIn: linkedin.com/in/pdro",
   ];
   const cEN = [
-    "Email: pedro@example.com",
+    "Email: ribeiro.opedrohenrique@gmail.com",
     "GitHub: github.com/pdro",
     "LinkedIn: linkedin.com/in/pdro",
   ];
